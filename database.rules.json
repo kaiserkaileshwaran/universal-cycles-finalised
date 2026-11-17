@@ -1,0 +1,147 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "settings": {
+      ".read": true,
+      ".write": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)"
+    },
+
+    "categories": {
+      ".read": true,
+      ".write": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)"
+    },
+
+    "brands": {
+      ".read": true,
+      ".write": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)"
+    },
+
+    "products": {
+      ".read": true,
+      ".write": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)",
+      "$productKey": {
+        ".write": "(auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)) || (data.exists() && newData.exists() && newData.child('id').val() === data.child('id').val() && newData.child('name').val() === data.child('name').val() && newData.child('price').val() === data.child('price').val() && newData.child('salePrice').val() === data.child('salePrice').val() && newData.child('thumbnail').val() === data.child('thumbnail').val() && newData.child('description').val() === data.child('description').val() && newData.child('isActive').val() === data.child('isActive').val() && newData.child('stock').isNumber() && newData.child('stock').val() >= 0 && newData.child('stock').val() < data.child('stock').val() && (data.child('stock').val() - newData.child('stock').val()) <= 10 && newData.child('lastOrderId').isString() && newData.child('lastOrderId').val().matches(/^UC[0-9]{8,16}$/) && newData.child('lastOrderId').val() !== data.child('lastOrderId').val())"
+      }
+    },
+
+    "shipping_rates": {
+      ".read": true,
+      ".write": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)"
+    },
+
+    "promotions": {
+      ".read": true,
+      ".write": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)"
+    },
+
+    "reviews": {
+      ".read": true,
+      ".write": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)",
+      "$reviewId": {
+        ".write": "(auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)) || (!data.exists() && auth != null && newData.child('status').val() !== 'approved') || (data.exists() && newData.exists() && newData.child('rating').val() === data.child('rating').val() && newData.child('status').val() === data.child('status').val() && newData.child('comment').val() === data.child('comment').val() && newData.child('productId').val() === data.child('productId').val())",
+        ".validate": "newData.hasChildren(['id', 'productId', 'rating', 'comment']) && newData.child('rating').isNumber() && newData.child('rating').val() >= 1 && newData.child('rating').val() <= 5 && newData.child('comment').isString() && newData.child('comment').val().length >= 1 && newData.child('comment').val().length <= 1500"
+      }
+    },
+
+    "orders": {
+      ".indexOn": ["userId"],
+      ".read": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true || (query.orderByChild === 'userId' && query.equalTo === auth.uid))",
+      ".write": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)",
+      "$orderId": {
+        ".read": "auth != null && (auth.uid === data.child('userId').val() || (auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)",
+        ".write": "(auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)) || (!data.exists() && newData.exists() && newData.child('status').val() === 'pending' && newData.child('paymentStatus').val() === 'pending') || (data.exists() && newData.exists() && newData.child('id').val() === data.child('id').val() && newData.child('email').val() === data.child('email').val() && newData.child('total').val() === data.child('total').val() && newData.child('status').val() === data.child('status').val() && newData.child('paymentStatus').val() === data.child('paymentStatus').val() && newData.child('shippingAddress').child('street1').val() === data.child('shippingAddress').child('street1').val() && newData.child('shippingAddress').child('phone').val() === data.child('shippingAddress').child('phone').val() && newData.child('shippingAddress').child('fullName').val() === data.child('shippingAddress').child('fullName').val() && newData.child('shippingAddress').child('zipCode').val() === data.child('shippingAddress').child('zipCode').val() && newData.child('items').child('0').child('productId').val() === data.child('items').child('0').child('productId').val() && newData.child('items').child('0').child('quantity').val() === data.child('items').child('0').child('quantity').val() && newData.child('items').child('0').child('price').val() === data.child('items').child('0').child('price').val() && !data.child('paymentReference').exists() && newData.child('paymentReference').isString() && newData.child('paymentReference').val().matches(/^([0-9]{12}|pay_[a-zA-Z0-9]{8,32})$/))",
+        ".validate": "newData.hasChildren(['id', 'items', 'total', 'shippingAddress', 'status', 'paymentMethod', 'paymentStatus', 'createdAt']) && newData.child('id').val() === $orderId && newData.child('total').isNumber() && newData.child('total').val() > 0 && newData.child('items').child('0').child('quantity').isNumber() && newData.child('items').child('0').child('quantity').val() > 0 && (!newData.child('items').child('0').child('price').exists() || (newData.child('items').child('0').child('price').isNumber() && newData.child('items').child('0').child('price').val() > 0))"
+      }
+    },
+
+    "order_tracking": {
+      ".read": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)",
+      ".write": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)",
+      "$orderId": {
+        ".read": true,
+        ".write": "(auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)) || (!data.exists() && newData.exists() && newData.child('status').val() === 'pending' && newData.child('paymentStatus').val() === 'pending') || (data.exists() && newData.exists() && newData.child('id').val() === data.child('id').val() && newData.child('total').val() === data.child('total').val() && newData.child('status').val() === data.child('status').val() && newData.child('paymentStatus').val() === data.child('paymentStatus').val() && !data.child('paymentReference').exists() && newData.child('paymentReference').isString() && newData.child('paymentReference').val().matches(/^([0-9]{12}|pay_[a-zA-Z0-9]{8,32})$/))",
+        ".validate": "newData.hasChildren(['id', 'items', 'total', 'shippingAddress', 'status', 'paymentMethod', 'paymentStatus', 'createdAt']) && newData.child('id').val() === $orderId && newData.child('total').isNumber() && newData.child('total').val() > 0"
+      }
+    },
+
+    "addresses": {
+      ".read": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)",
+      ".write": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)",
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || (auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)",
+        ".write": "auth != null && (auth.uid === $uid || (auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)"
+      }
+    },
+
+    "contact_messages": {
+      ".read": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)",
+      ".write": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)",
+      "$msgId": {
+        ".write": "!data.exists() || (auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true))",
+        ".validate": "newData.hasChildren(['message']) && newData.child('message').isString() && newData.child('message').val().length > 0 && newData.child('message').val().length <= 5000",
+        "id": { ".validate": "newData.isString() && newData.val().length <= 100" },
+        "firstName": { ".validate": "newData.isString() && newData.val().length <= 100" },
+        "lastName": { ".validate": "newData.isString() && newData.val().length <= 100" },
+        "email": { ".validate": "newData.isString() && newData.val().length <= 254" },
+        "message": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 5000" },
+        "createdAt": { ".validate": "newData.isNumber()" },
+        "read": { ".validate": "newData.isBoolean()" },
+        "$other": { ".validate": false }
+      }
+    },
+
+    "subscribers": {
+      ".read": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)",
+      ".write": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)",
+      "$subId": {
+        ".write": "(auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)) || (newData.exists() && (!data.exists() || newData.child('email').val() === data.child('email').val()))",
+        ".validate": "newData.hasChildren(['email']) && newData.child('email').isString() && newData.child('email').val().contains('@') && newData.child('email').val().length <= 254"
+      }
+    },
+
+    "spin_prizes": {
+      ".read": true,
+      ".write": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)"
+    },
+
+    "spin_winners": {
+      ".read": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)",
+      ".write": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)",
+      "$winnerId": {
+        ".write": "!data.exists() || (auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true))",
+        ".validate": "newData.hasChildren(['id', 'email', 'prize', 'date'])"
+      }
+    },
+
+    "users": {
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || (auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)",
+        ".write": "auth != null && (auth.uid === $uid || (auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)",
+        "role": {
+          ".validate": "newData.val() === 'customer' || (auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true))"
+        }
+      }
+    },
+
+    "push_subscriptions": {
+      ".read": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)",
+      "$subId": {
+        ".write": "(auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)) || (!data.exists() && newData.exists()) || (data.exists() && newData.exists() && newData.child('endpoint').val() === data.child('endpoint').val())",
+        ".validate": "newData.hasChildren(['endpoint']) && newData.child('endpoint').isString() && newData.child('endpoint').val().beginsWith('https://') && newData.child('endpoint').val().length <= 1000"
+      }
+    },
+
+    "stock_alerts": {
+      ".read": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)",
+      "$productId": {
+        ".write": "auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)",
+        "$subId": {
+          ".write": "!data.exists() || (auth != null && ((auth.token.email === 'admin@gmail.com' && auth.token.email_verified === true) || auth.token.admin === true)) || (data.exists() && newData.exists() && newData.child('endpoint').val() === data.child('endpoint').val())",
+          ".validate": "newData.hasChildren(['endpoint']) && newData.child('endpoint').isString() && newData.child('endpoint').val().beginsWith('https://') && newData.child('endpoint').val().length <= 1000"
+        }
+      }
+    }
+  }
+}

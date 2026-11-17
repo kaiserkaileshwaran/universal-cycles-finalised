@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="primaryGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#3b82f6" />
+      <stop offset="100%" stop-color="#60a5fa" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="450" fill="url(#bgGrad)" />
+  <g fill="none" stroke="url(#primaryGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" transform="translate(110, 95)">
+    <!-- Rear Wheel -->
+    <circle cx="60" cy="180" r="55" stroke="#475569" stroke-width="8" />
+    <circle cx="60" cy="180" r="10" fill="#60a5fa" />
+    <!-- Front Wheel -->
+    <circle cx="320" cy="180" r="55" stroke="#475569" stroke-width="8" />
+    <circle cx="320" cy="180" r="10" fill="#60a5fa" />
+    <!-- Frame -->
+    <polyline points="60,180 160,180 230,80 120,80 60,180" />
+    <polyline points="160,180 120,80" />
+    <polyline points="230,80 320,180" />
+    <!-- Seat -->
+    <line x1="95" y1="65" x2="145" y2="65" stroke="#94a3b8" stroke-width="14" stroke-linecap="round" />
+    <!-- Handlebar -->
+    <polyline points="215,65 245,65 260,45" stroke="#94a3b8" stroke-width="10" />
+  </g>
+  <text x="300" y="375" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="600" fill="#94a3b8" text-anchor="middle" letter-spacing="3">UNIVERSAL CYCLES</text>
+  <text x="300" y="402" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="400" fill="#64748b" text-anchor="middle">Product Image</text>
+</svg>
